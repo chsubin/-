@@ -1,5 +1,5 @@
 package 프로그래머스course3;
-
+//정수삼각형
 public class Test1_동적프로그래밍 {
 	public static void main(String[] args) {
 		
