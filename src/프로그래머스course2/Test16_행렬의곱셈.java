@@ -17,7 +17,7 @@ public class Test16_행렬의곱셈 {
 				for(int i=0;i<arr1[0].length;i++) {
 						answer[k][l] += arr1[k][i]*arr2[i][l];
 				}
-				System.out.println("arr["+k+"]["+l+"] = "+answer[k][l]);
+				System.out.println("arr["+k+"]["+l+"] = "+answer[k][l]); 
 			}
 		}
 		
