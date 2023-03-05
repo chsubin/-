@@ -1,6 +1,6 @@
 package 프로그래머스course2;
 
-public class Test15_행렬의곱셈 {
+public class Test16_행렬의곱셈 {
 	public static void main(String[] args) {
 		int [][] arr1 = {{1,4},
 											{3,2},
