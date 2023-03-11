@@ -34,8 +34,6 @@ public class Test24_타겟넘버2넓이우선 {
 			q.add(new Pair(nPosition,p.sum+numbers[nPosition]));
 			q.add(new Pair(nPosition,p.sum+numbers[nPosition]*-1));
 		}
-		
-		
 	}
 	private static class Pair{
 		int position;
