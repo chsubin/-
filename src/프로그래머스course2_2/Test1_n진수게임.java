@@ -1,4 +1,4 @@
-package 프로그래머스course_2;
+package 프로그래머스course2_2;
 
 public class Test1_n진수게임 {
 	public static void main(String[] args) {
