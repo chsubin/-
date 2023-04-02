@@ -2,7 +2,7 @@ package doit알고리즘;
 
 import java.io.*;
 
-public class Test11698_오일러피함수구현하기 {
+public class Test041_오일러피함수구현하기 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
