@@ -31,7 +31,7 @@ public class Test047_효율적으로해킹하기 {
 		}
 		
 		for(int i=1;i<N+1;i++) {
-			visited = new boolean [N+1]; //방문한 노드를 세어주면 됨..
+			visited = new boolean [N+1]; //거쳐서 방문하면 신뢰도++
 			BFS(i);
 		}
 		int maxVal = 0;
@@ -53,11 +53,10 @@ public class Test047_효율적으로해킹하기 {
 			int new_node = queue.poll();
 			for(int i:A[new_node]) {
 					if(visited[i]==false) {
-						visited[i] = true;
+						visited[i] = true; //방문할때 신뢰도를 증가시켜주면됨.
 						trust[i]++;
 						queue.add(i);
 					}
-					
 				}
 				
 				

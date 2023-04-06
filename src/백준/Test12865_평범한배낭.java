@@ -37,16 +37,16 @@ public class Test12865_평범한배낭 {
 		System.out.println(max);
 	}
 	private static void DFS(int i,int weight,int v) { //남은중량 , 누적가치값
-		if(visited[i]) return;
-		visited[i] = true;
 		weight = weight - W[i];
 		if(weight<0) return;
+		visited[i]= true;
 		v += V[i];
 		if(v>value) value = v;
 		for(int j=0;j<visited.length;j++) {
 			if(!visited[j]) {
 				DFS(j,weight,v);
 			}
+			visited[i] = false;
 		}
 		
 		
