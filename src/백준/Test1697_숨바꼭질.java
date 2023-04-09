@@ -1,7 +1,8 @@
 package 백준;
 
-import java.util.*;
-import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
 
 public class Test1697_숨바꼭질 {
 	static int time;
