@@ -16,8 +16,6 @@ class Solution {
         }
         answer = dp[dp.length-1];
         
-
-        
         return answer;
     }
 }
