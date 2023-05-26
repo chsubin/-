@@ -24,9 +24,6 @@ class Solution {
                 DFS(E,now+1,strs+"/"+E,tickets);
                 visit[i] = false;
             }
-            
         }
-        
-        
     }
 }
