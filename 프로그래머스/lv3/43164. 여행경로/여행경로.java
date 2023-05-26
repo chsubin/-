@@ -1,29 +1,32 @@
 import java.util.*;
 class Solution {
-    private static boolean[] visited;
-    private static List<String>result = new ArrayList<>();
+    static boolean visit[];
+    static ArrayList<String> list;
     public String[] solution(String[][] tickets) {
-        visited = new boolean[tickets.length];
+        visit = new boolean[tickets.length];
+        list = new ArrayList<>();
         
-        DFS(0,"ICN","ICN",tickets);
-        Collections.sort(result);
-        String [] answer = result.get(0).split(" ");
-        
+        DFS("ICN",0,"ICN",tickets);
+        Collections.sort(list);
+        String str =  list.get(0);
+        String[] answer = str.split("/");
         
         return answer;
     }
-    private static void DFS(int now,String start,String route,String [][]tickets){
-        if(now==tickets.length){
-            result.add(route);
-            return;
-        }
+    public static void DFS(String start,int now,String strs,String [][] tickets){
+        if(tickets.length==now) list.add(strs);
         for(int i=0;i<tickets.length;i++){
-            if(tickets[i][0].equals(start)&&!visited[i]){
-                visited[i] = true;
-                DFS(now+1,tickets[i][1],route+" "+tickets[i][1],tickets);
-                visited[i] = false;
+            if(visit[i]) continue;
+            String S = tickets[i][0];
+            String E = tickets[i][1];
+            if(start.equals(S)){
+                visit[i] = true;
+                DFS(E,now+1,strs+"/"+E,tickets);
+                visit[i] = false;
             }
+            
         }
+        
         
     }
 }
