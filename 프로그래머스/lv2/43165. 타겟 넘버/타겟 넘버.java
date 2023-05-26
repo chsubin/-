@@ -1,22 +1,19 @@
 class Solution {
-    static int answer;
+    static int [] number;
+    static int answer = 0;
     public int solution(int[] numbers, int target) {
-		
-		answer =0;
-		DFS(numbers,target,0);
-		return answer;
-	}
-	static void DFS(int []numbers, int target, int L) {
-		if(L==numbers.length) {
-			int sum =0;
-			for(int x :numbers) sum+=x;
-			if(sum==target) answer++;
-		}
-		else {
-			DFS(numbers,target,L+1);
-			numbers[L] =numbers[L]*-1;
-			DFS(numbers,target,L+1);
-			
-		}
-	}
+        number = numbers;
+        DFS(0,0,number.length,target);
+        
+        
+        return answer;
+    }
+    public static void DFS(int su,int i,int len,int real){
+        if(su==real&&i== len) answer++;
+        if(i== len) return;
+        int target = number[i];
+        DFS(su+target,i+1,len,real);
+        DFS(su-target,i+1,len,real);
+        
+    }
 }
