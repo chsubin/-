@@ -1,41 +1,48 @@
 import java.util.*;
 class Solution {
-    static int answer []= new int [2];
-    static int discount [] = {10,20,30,40};
-    static int emoticon [] ;
-    static int user [][];
+    static int su =0;
+    static int total = 0;
     public int[] solution(int[][] users, int[] emoticons) {
-        emoticon = emoticons;
-        user = users;
-        DFS(0,emoticon.length-1,new int [emoticon.length]);
         
+        dfs(emoticons.length,0,new int[emoticons.length],emoticons,users);
+        int[] answer = {su,total};
         return answer;
     }
-    private static void DFS(int index, int end, int [] arr){
-        if(index>end) return;
-        for(int i=0;i<discount.length;i++){
-            arr[index] = discount[i];
-            if(index==end){
-                System.out.println();
-                int su = 0;
-                int sum =0;
-                for(int j=0;j<user.length;j++){//사용자별탐색
-                    int price =0;
-                    for(int k=0;k<arr.length;k++){ //이모티콘별 탐색
-                        if(user[j][0]<=arr[k]){
-                            price +=emoticon[k]*(100-arr[k])/100;
-                            //할인후 이모티콘의 가격
-                        }
+    private static void dfs(int limit,int idx,int [] discount,int [] emoticons,int [][] users){
+        if(idx==limit){
+            int sumsu =0; //서비스 가입수
+            int sumprice = 0; //이모티콘판매액
+            for(int i=0;i<users.length;i++){ //고객당 이모티콘 계산하기
+                int dis = users[i][0]; //고객이 원하는 할인율
+                int tar = users[i][1]; //고객의 기준 금액
+                int sum = 0; //해당 고객의 이모티콘 판매액
+                for(int j=0;j<emoticons.length;j++){//이모티콘의 가격 
+                    if(discount[j]>=dis){ //할인율이 고객이 원하는 할인율을 넘어섰을때 구매
+                        sum += emoticons[j]*(100-discount[j])/100;
                     }
-                    if(price>=user[j][1]) su++;
-                    else {sum+=price;}
                 }
-                if(su>answer[0]) {answer[0] = su;answer[1] = sum;}
-                if(su==answer[0]&&sum>answer[1]){
-                    answer[1] = sum;
+                if(sum>=tar){
+                    sumsu++;
                 }
+                else{
+                    sumprice += sum;
+                }   
             }
-            DFS(index+1,end,arr);
+            if(su<sumsu){//판매액이 같거나높을떄
+                su = sumsu;
+                total = sumprice;                
+            }
+            else if(su==sumsu&&total<sumprice){ //판매액이 더 높을떄
+                su = sumsu;
+                total = sumprice;
+            }
+
+            return;
+        }
+        int [] per = {10,20,30,40};
+        for(int i=0;i<per.length;i++){
+            discount[idx] = per[i];
+            dfs(limit,idx+1,discount,emoticons,users);
         }
         
     }
