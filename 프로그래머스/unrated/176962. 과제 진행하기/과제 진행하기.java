@@ -20,7 +20,6 @@ class Solution {
                     answer[index] = cur_sub;
                     index++;
                 }
-                System.out.println(cur_sub);
                 int time = cur_time-end_time;
                 while(!stack.isEmpty()){
                     String [] subs = stack.pop();
