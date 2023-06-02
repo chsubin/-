@@ -10,7 +10,7 @@ class Solution {
             DFS(i,""+i);
         }
     Collections.sort(A,(o1,o2)->{
-    	return o1.length()-o2.length();
+        return o1.length()-o2.length();
     });
     while(A.size()!=0){
        String sample [] = new String [relations.length];
@@ -36,30 +36,30 @@ class Solution {
             A.remove(0);
         }
         else{
-        	System.out.println(strs);
+            System.out.println(strs);
             answer++;
             A.remove(0);
               for(int j=0;j<A.size();j++){
-              	int sum =0;
-                	for(int i=0;i<strs.length();i++){
-                		String sub = strs.substring(i,i+1);
+                int sum =0;
+                    for(int i=0;i<strs.length();i++){
+                        String sub = strs.substring(i,i+1);
                     if(A.get(j).contains(sub)&&A.get(j).length()>strs.length()) {
-                    		sum++;
+                            sum++;
                     }
                 }
                 if(sum==strs.length()) {
-                	A.remove(j);
-                	j--;
+                    A.remove(j);
+                    j--;
                 }
             }
         }
     }return answer;
-	}
-	  private static void DFS(int now,String str){
-	    if(A.contains(str))return;
-	    A.add(str);
-	    for(int i = now+1 ;i <relations[0].length;i++){
-	        DFS(i,str+i);
-	    }
-	}
+    }
+      private static void DFS(int now,String str){
+        if(A.contains(str))return;
+        A.add(str);
+        for(int i = now+1 ;i <relations[0].length;i++){
+            DFS(i,str+i);
+        }
+    }
 }
