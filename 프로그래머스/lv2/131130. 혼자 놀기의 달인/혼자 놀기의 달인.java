@@ -1,35 +1,41 @@
 import java.util.*;
 class Solution {
-    static int [] card;
-    static ArrayList<Integer> list;
-    static boolean visit [];
+    static int card[];
+    static boolean visit[];
+    static PriorityQueue<Integer> queue;
     public int solution(int[] cards) {
         int answer = 0;
-        visit = new boolean [cards.length];
-        list = new ArrayList<>();
-        card = cards;
-        for(int i=0;i<card.length;i++){
-            DFS(i,1);
+        card = new int [cards.length+1];
+        for(int i=0;i<cards.length;i++){
+            card[i+1] = cards[i];
         }
-        Collections.sort(list,(o1,o2)->{
-            return o2-o1;
-        });
-        if(list.size()>1){
-            answer = list.get(0)*list.get(1);
+        queue = new PriorityQueue<>((o1,o2)->{return o2-o1;});
+        visit = new boolean[card.length];
+        for(int i=1;i<card.length;i++){
+            if(!visit[i]){
+                function(i,0);
+            }
         }
-        else answer = 0;
+        int a = 0;
+        int b = 0;
+        if(!queue.isEmpty()){
+            a = queue.poll();
+        }
+        if(!queue.isEmpty()){
+            b = queue.poll();
+        }
         
+        answer = a*b;
         return answer;
     }
-    private static void DFS(int i,int depth){
-        int now = card[i]-1;
-        if(visit[i]) return;
-        visit[i] = true;
-        if(visit[now]==true){
-            list.add(depth);
+    private static void function(int su, int depth){
+        if(visit[su]){
+            queue.add(depth);
             return;
         }
-        DFS(now,depth+1);
+        visit[su] = true;
+        function(card[su],depth+1);
         
     }
+    
 }
