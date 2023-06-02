@@ -1,52 +1,77 @@
 import java.util.*;
 class Solution {
-    static int answer =0 ;
     public int solution(int[] picks, String[] minerals) {
-        int num = (picks[0]+picks[1]+picks[2])*5;
+        int answer = 0;
+        int sum = picks[0]+picks[1]+picks[2];
+        int imsi[] = new int [6];
         ArrayList<int []> list = new ArrayList<>();
-        int sum =0;
+        
+        int total =0;
+        boolean flag = true;
+        int num = 0;
         for(int i=0;i<minerals.length;i++){
-            if(i==num) {
-                list.add(new int []{sum,5});
-                sum=0;
+            if(i==sum*5) { //도끼가 남아있지 않은경우
+                flag = false;
                 break;
             }
-            if(i!=0&&i%5==0) {
-                list.add(new int []{sum,5});
-                sum=0;
+            num++;
+            if(minerals[i].equals("diamond")){
+                total += 25;
             }
-            int a = 0;
-            if(minerals[i].equals("diamond")) a = 25;
-            else if(minerals[i].equals("iron")) a = 5;
-            else if(minerals[i].equals("stone")) a = 1;
-            sum +=a;            
+            else if(minerals[i].equals("iron")){
+                total += 5;
+            }
+            else{
+                total +=1;
+            }
+            if((i+1)%5==0&&i!=0){ //도끼를 다섯번 다 쓴경우
+                list.add(new int []{total,5});
+                total = 0;
+                num = 0;
+            }
         }
-        if(sum!=0){
-            list.add(new int []{sum,minerals.length%5==0?5:minerals.length%5});
+        if(flag&&total!=0){
+            list.add(new int []{total,num});
         }
-        Collections.sort(list,(int []o1,int []o2)->{
+        Collections.sort(list,(o1,o2)->{
             return o2[0]-o1[0];
         });
         for(int i=0;i<list.size();i++){
-            int a = list.get(i)[0];
-            int b = list.get(i)[1];
+            int A [] = list.get(i);
+            int T = A[0];
+            int N = A[1];
+            System.out.println(T+" "+N);
             if(picks[0]!=0){
                 picks[0]--;
-                answer+=b;
+                answer+= N;
             }
             else if(picks[1]!=0){
                 picks[1]--;
-                if(!(a==5&&b==5)){
-                    answer+=a/5 ; a = a%5;
+                if(N!=5){
+                    answer+= T/5;
+                    answer+= T%5;
                 }
-                answer+=a;
+                else if(N==5){
+                    if(T==5){
+                        answer+=5;
+                    }
+                    else{
+                        answer+= T/5;
+                        answer+= T%5;
+                    }
+                }
+                
             }
             else{
                 picks[2]--;
-                answer+=a;
+                answer+= T;
             }
+            System.out.println(answer);
+            
         }
-
+        
+        
+        
         return answer;
     }
 }
