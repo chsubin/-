@@ -1,30 +1,41 @@
 import java.util.*;
 class Solution {
+    static ArrayList<Integer> list = new ArrayList<>();
     public int solution(String[][] book_time) {
-        ArrayList<Integer> list = new ArrayList<>();
-        Arrays.sort(book_time,(String [] o1,String []o2)->{
-            return o2[1].compareTo(o1[1]);
-        }); //퇴실시간이 제일 나중으로 정렬
+        Arrays.sort(book_time,(o1,o2)->{
+            //입실시간
+            int in1 = Integer.parseInt(o1[0].substring(0,2))*60
+                + Integer.parseInt(o1[0].substring(3));
+            int in2 = Integer.parseInt(o2[0].substring(0,2))*60
+                + Integer.parseInt(o2[0].substring(3));
+            //퇴실시간
+            int out1 = Integer.parseInt(o1[1].substring(0,2))*60
+                + Integer.parseInt(o1[1].substring(3));
+            int out2 = Integer.parseInt(o2[1].substring(0,2))*60
+                + Integer.parseInt(o2[1].substring(3));
+            if(out1!=out2) return out2 - out1;
+            else return in2- in1;
+        });
         for(int i=0;i<book_time.length;i++){
-            String start = book_time[i][0];
-            String end = book_time[i][1];
-            int S = 60*Integer.parseInt(start.substring(0,2))+Integer.parseInt(start.substring(3));
-            int E = 60*Integer.parseInt(end.substring(0,2))+Integer.parseInt(end.substring(3));
-            int sw =0;
+            int in = Integer.parseInt(book_time[i][0].substring(0,2))*60
+                + Integer.parseInt(book_time[i][0].substring(3));
+            int out = Integer.parseInt(book_time[i][1].substring(0,2))*60
+                + Integer.parseInt(book_time[i][1].substring(3));
+            int sw = 0;
             for(int j=0;j<list.size();j++){
-                int gijun = list.get(j);
-                if(E+10<=gijun){
-                    list.set(j,S);
+                if(out<=list.get(j)){//입실할수 있는 방이 있을때
+                    list.set(j,in-10);
                     sw = 1;
                     break;
                 }
             }
-            if(sw==0){
-                list.add(S);
+            if(sw ==0){
+                list.add(in-10);
             }
+            
         }
-        int answer = list.size();
         
-        return answer;
+        
+        return list.size();
     }
 }
