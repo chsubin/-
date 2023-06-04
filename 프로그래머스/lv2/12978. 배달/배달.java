@@ -1,40 +1,49 @@
-import java.util.*;
 class Solution {
-    static int A[][];
     public int solution(int N, int[][] road, int K) {
         int answer = 0;
-        A = new int[N+1][N+1];
+        int [][] cost = new int[N+1][N+1];
+        int d = new int [N+1];
+        boolean[] v = new boolean[N+1];
+        
         for(int i=1;i<=N;i++){
             for(int j=1;j<=N;j++){
-                if(i==j) A[i][j] = 0;
-                else A[i][j] = 100000001;
+                cost[i][j] = 10000001;
             }
         }
         for(int i=0;i<road.length;i++){
             int S = road[i][0];
             int E = road[i][1];
-            int distance = road[i][2];
-            if(A[S][E]>distance){
-                A[S][E] = distance;
-            }
-            if(A[E][S]>distance){
-                A[E][S] = distance;
+            int D = road[i][2];
+            if(cost[S][E]>D){
+                cost[S][E] = D;
+                cost[E][S] = D;
             }
         }
-        for(int k=1;k<=N;k++){
+        for(int i=2;i<=N;i++){
+            d[i] = -1;
+        }
+        while(true){
+            boolean check = true;
             for(int i=1;i<=N;i++){
-                for(int j=1;j<=N;j++){
-                    if(A[i][j]>A[i][k]+A[k][j])
-                        A[i][j] =A[i][k]+A[k][j];
+                if(!v[i]) check = false;
+            }
+            if(check) break;
+            int min = 10000001;
+            int min_idx = -1;
+            for(int i=1;i<=N;i++){
+                if(d[i]>=0&&!v[i]&&min>k[i]){
+                    min = d[i];
+                    min_idx = i;
                 }
+            }
+            for(int i=1;i<N;i++){
+                if(i!=min_idx&&((d[min_idx]+cost[min_idx][i])||d[i] ==-1)) d[i] = d[min_idx] + cost[min_idx][i];
+                v[min_idx] = true;
             }
         }
         for(int i=1;i<=N;i++){
-            if(A[1][i]<=K) {
-                answer++;
-            }
+            if(d[i]<=K)answer++;
         }
-
         return answer;
     }
 }
