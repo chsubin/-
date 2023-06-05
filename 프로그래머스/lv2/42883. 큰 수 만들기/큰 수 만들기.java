@@ -1,18 +1,22 @@
 class Solution {
     public String solution(String number, int k) {
-    StringBuilder sb = new StringBuilder();
-    int index = 0;
-    int max = 0;
-    for(int i=0; i<number.length() - k; i++) {
-        max = 0;
-        for(int j = index; j<= k+i; j++) {
-            if(max < number.charAt(j)-'0') {
-                max = number.charAt(j)-'0';
-                index = j+1;
+        String answer = "";
+        int idx =-1;
+        for(int i=0;i<number.length()-k;i++){ //선택 횟수
+            int max = 0;
+            System.out.println(i+1+". "+(number.length()-k+i-1));
+            for(int j = idx+1;j<number.length()-k+i-1;j++){
+                if(max<Integer.parseInt(number.substring(j,j+1))){
+                    max = Integer.parseInt(number.substring(j,j+1));
+                    idx = j;
+                }
             }
+            answer+= number.substring(idx,idx+1);
+            
         }
-        sb.append(max);
-    }
-        return sb.toString();
+        
+        
+        
+        return answer;
     }
 }
