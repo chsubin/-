@@ -1,29 +1,32 @@
 import java.util.*;
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
-    Queue<Integer> q1 = new ArrayDeque<>();
-    Queue<Integer> q2 = new ArrayDeque<>();
-    long s1=0, s2=0, sum;
-    for (int tmp : queue1) {q1.add(tmp); s1+=tmp;} //queue1의 합계
-    for (int tmp : queue2) {q2.add(tmp); s2+=tmp;} //quque2의 합계
-    sum = s1+s2; //전체 합계
-    if (sum%2==1) return(-1);
-    sum/=2;
-    int p1 = 0, p2 = 0, limit = queue1.length*2; //전체 개수
-    while (p1<=limit && p2<=limit) {
-        if (s1 == sum) return(p1+p2);
-        if (s1>sum) {
-            s1-=q1.peek();
-            s2+=q1.peek();
-            q2.add(q1.poll());
-            p1++;
-        } else {
-            s2-=q2.peek();
-            s1+=q2.peek();
-            q1.add(q2.poll());
-            p2++;
+        Queue<Integer> q1 = new LinkedList<>();
+        Queue<Integer> q2 = new LinkedList<>();
+        long sum1 = 0;
+        long sum2 = 0;
+        for(int q:queue1){q1.add(q);sum1+=(long)q;}
+        for(int q:queue2){q2.add(q);sum2+=(long)q;}
+        if((sum1+sum2)%2!=0) return -1;
+        int su = 0;
+        for(int i=0;i<=queue1.length*3;i++){
+            if (sum1==sum2) return su;
+            else if(sum1<sum2){
+                int a = q2.poll();
+                sum2-= a;
+                sum1+= a;
+                q1.add(a);
+                su++;
+            }
+            else{
+                int a = q1.poll();
+                sum1-= a;
+                sum2+= a;
+                q2.add(a);
+                su++;
+            }
         }
-    }
-        return-1;
+        
+        return -1;
     }
 }
