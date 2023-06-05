@@ -1,76 +1,59 @@
 import java.util.*;
 class Solution {
-	static ArrayList<Character> food;
-	static ArrayList<String> strs;
-	static boolean [] visit;
-	static String order[];
-	static int target;
-	static int max=0;
+    static ArrayList<Character> A = new ArrayList<>();
+    static ArrayList<String> imsi = new ArrayList<>();
+    static int max =0;
     public String[] solution(String[] orders, int[] course) {
-		order = orders;
-		//최소 두명 이상의손님에게서 골라진 요리만 추가
-		
-		//2,3,4개의 요리를 골라서 두명이상의 손님에게서 골라졌는지 확인하기. arraylist?
-		food = new ArrayList<>(); //메뉴의 전체 개수
-		strs = new ArrayList<>();
-		Collections.sort(food);
-		for(int i=0;i<orders.length;i++) {
-			for(int j=0;j<orders[i].length();j++) {
-				if(!food.contains(orders[i].charAt(j))) {
-					food.add(orders[i].charAt(j));
-				}
-			}
-		}
-        Collections.sort(food);
-		ArrayList<String> arr = new ArrayList<>();
-		
-		for(int k=0;k<course.length;k++) {
-			strs = new ArrayList<>();
-			max = 0;
-			visit = new boolean [food.size()];
-			target = course[k];
-			for(int i=0;i<food.size();i++) {
-				DFS(i,food.get(i)+"");
-			}
-			for(String s:strs) {
-				arr.add(s);
-			}
-		}
-		String [] answer = new String[arr.size()];
-		for(int i=0;i<arr.size();i++) {
-			answer[i] = arr.get(i);
-		}
-		Arrays.sort(answer);
+        ArrayList<String> ans = new ArrayList<>();
+        for(int i=0;i<orders.length;i++){
+            for(int j=0;j<orders[i].length();j++){
+                char a = orders[i].charAt(j);
+                if(!A.contains(a)) A.add(a);
+            }
+        }
+        Collections.sort(A);
+        for(int i=0;i<course.length;i++){
+            max = 0;
+            imsi = new ArrayList<>();
+            for(int j=0;j<A.size();j++){
+                DFS(j,course[i],A.get(j)+"",orders);
+                
+            }
+            for(int j=0;j<imsi.size();j++){
+                ans.add(imsi.get(j));
+            }
+            
+        }
+        String [] answer = new String [ans.size()];
+        for(int i=0;i<ans.size();i++){
+            answer[i] = ans.get(i);
+        }
+        Arrays.sort(answer);
         return answer;
-		
-	}
-	private static void DFS(int index, String str) {
-		if(visit[index]) return;
-		visit[index] = true;
-		if(str.length()==target) {
-			int num=0;
-			for(int i=0;i<order.length;i++) {
-				int sw =1;
-				for(int j=0;j<str.length();j++) {
-					if(!order[i].contains(str.substring(j, j+1))) {//포함하지 않았을경우
-						sw= 0;
-						break;
-					}
-				}
-				if (sw ==1)num++;
-			}
-			if(max<num&&num>1) {max = num;strs = new ArrayList<>();strs.add(str);}
-			else if(max==num&&num>1) {
-				strs.add(str);
-			}
-			return;
-		} //2개이상의 주문이 포함하고 있는지를 봐야함
-		for(int i=index+1;i<food.size();i++) {
-			if(!visit[i]) {
-				DFS(i,str+food.get(i));
-				visit[i] = false;
-			}
-		}
-		
-	}
+    }
+    public static void DFS(int now,int limit,String str,String []orders){
+        
+        if(str.length()==limit){ //최대값 찾기
+            int res = 0;
+            for(int i=0;i<orders.length;i++){
+                boolean flag = true;
+                for(int j=0;j<str.length();j++){
+                    if(!orders[i].contains(str.substring(j,j+1))) {flag= false;break;}
+                }
+                if (flag) res++;
+            }
+            if(res>max&&res>1){
+                imsi = new ArrayList<>();
+                max = res;
+                imsi.add(str);
+            }
+            else if(res==max&&res>1){
+                imsi.add(str);
+            }
+            return;
+        }
+        for(int i=now+1;i<A.size();i++){
+            DFS(i,limit,str+A.get(i),orders);
+        }
+    }
 }
