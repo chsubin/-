@@ -1,31 +1,44 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 class Solution {
     public int solution(int bridge_length, int weight, int[] truck_weights) {
-		int time =0;
-		
-		Queue<Integer> queue = new LinkedList<>();
-		queue.add(truck_weights[0]);
-		int now_weight =truck_weights[0];
-		time++;
-		int index=1;
-		while(!queue.isEmpty()) {
-			if(queue.size()==bridge_length) {//트럭이 빠져나옴
-				int a =queue.poll();
-				now_weight= now_weight-a;
-				if(index==truck_weights.length&&queue.peek()==-1) {break;}
-			}
-			if(index==truck_weights.length) queue.add(-1);
-			else if(now_weight+truck_weights[index]>weight) { //
-				queue.add(0);
-			}
-			else {
-				queue.add(truck_weights[index]);
-				now_weight += truck_weights[index];
-				index++;
-			}
-			time ++;
-		}
-		return (time+1);
+        int answer = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        int idx = 0;
+        int time = 0;
+        int sum = 0;
+        while(true){
+            time++;
+            if(queue.size()<bridge_length){//다리에 다 올라가기 전
+                if(idx>=truck_weights.length) queue.add(-1);
+                else if(sum+truck_weights[idx]<=weight){
+                    queue.add(truck_weights[idx]);
+                    sum+= truck_weights[idx];
+                    idx++;
+                }
+                else{
+                    queue.add(0);
+                }
+            }
+            if(queue.size()==bridge_length){
+                int out = queue.poll();
+                if(out==-1) break; //탐색 모두 끝났을떄
+                sum -= out;
+                if(idx>=truck_weights.length) queue.add(-1);
+                else if(sum+truck_weights[idx]<=weight){
+                    queue.add(truck_weights[idx]);
+                    sum+= truck_weights[idx];
+                    idx++;
+                }
+                else{
+                    queue.add(0);
+                }
+                
+                
+            }
+            
+        }
+        
+        
+        return time;
     }
 }
