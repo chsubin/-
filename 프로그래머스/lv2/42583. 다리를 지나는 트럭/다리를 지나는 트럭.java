@@ -32,8 +32,6 @@ class Solution {
                 else{
                     queue.add(0);
                 }
-                
-                
             }
             
         }
