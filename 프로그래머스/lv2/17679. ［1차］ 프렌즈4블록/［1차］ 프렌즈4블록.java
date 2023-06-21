@@ -1,58 +1,55 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
+import java.util.*;
 class Solution {
-    public int solution(int m, int n, String[] board) {
-		int answer=0;
-		
-		String [][] A = new String [m][n];
-		
-		for(int i=0;i<m;i++) {
-			for(int j=0;j<n;j++) {
-				A[i][j] = board[i].substring(j,j+1);
-			}
-		}//2차원배열로 만들었다.
-		Queue<int[]> list = new LinkedList<>();
-		boolean flag = true;
-		while(flag) {
-			flag = false;
-			for(int i=0;i<m-1;i++) {
-				for(int j=0;j<n-1;j++) {
-					String a = A[i][j];
-					if(!a.equals("")&&A[i][j+1].equals(a)&&A[i+1][j].equals(a)&&A[i+1][j+1].equals(a)) {
-						list.add(new int []{i,j});
-						list.add(new int []{i,j+1});
-						list.add(new int []{i+1,j});
-						list.add(new int []{i+1,j+1});
-						flag = true;
-					}
-				}
-			}
-			while(!list.isEmpty()) {
-				int arr[] = list.poll();
-				if(!A[arr[0]][arr[1]].equals(""))
-				answer++;
-				A[arr[0]][arr[1]] = "";//맞는거 없애주기
-			}
-			for(int j=n-1;j>=0;j--) {
-				Queue<String> queue = new LinkedList<>();
-				for(int i=m-1;i>=0;i--) {
-					String a = A[i][j];
-					if(!a.equals("")) {
-						queue.add(A[i][j]);
-					}
-				}
-				for(int i=m-1;i>=0;i--) {
-					if(!queue.isEmpty()) {
-						A[i][j] = queue.poll();
-					}
-					else {
-						A[i][j] ="";
-					}
-				}
-			}
-		}
+    public int solution(int m, int n, String[] boards) {
+        int answer = 0;
+        //1. 배열을 탐색하면서 4개가 같은 블록을 찾아 저장 -> 없으면 반복문 탈출
+        //2. 저장된 곳을 빈공간으로 바꿈
+        //3. 빈공간을 채워줌
+        Queue<int []> queue = new LinkedList<>();
+        char [][] board = new char[m][n];
+        for(int i=0;i<=m-1;i++){
+            for(int j=0;j<=n-1;j++){
+                char ch = boards[i].charAt(j);
+                board[i][j] = ch;
+            }
+        }
+        while(true){
+            for(int i=0;i<m-1;i++){ //1
+                for(int j=0;j<n-1;j++){
+                    char ch = board[i][j];
+                    if(ch==' ')continue;
+                    if(ch!=board[i][j+1]) continue;
+                    else if(ch!=board[i+1][j]) continue;
+                    else if(ch!=board[i+1][j+1]) continue;
+                    queue.add(new int[]{i,j});
+                    queue.add(new int[]{i,j+1});
+                    queue.add(new int[]{i+1,j});
+                    queue.add(new int[]{i+1,j+1});
+                }
+            }
+            if(queue.isEmpty()) break;
+            while(!queue.isEmpty()){//2
+                int [] arr = queue.poll();
+                if(board[arr[0]][arr[1]]!=' '){
+                    board[arr[0]][arr[1]] = ' ';
+                    answer++;
+                }
+            }
+            for(int j=0;j<n;j++){//3
+                String str ="";
+                for(int i=m-1;i>=0;i--){
+                    if(board[i][j]!=' ') str+= board[i][j];
+                }
+                for(int i=0;i<m;i++){
+                    if(i<str.length()){
+                        board[m-i-1][j] = str.charAt(i);
+                    }
+                    else board[m-i-1][j] = ' ';
+                }
+            }
+            
+        }
+        
         return answer;
     }
 }
