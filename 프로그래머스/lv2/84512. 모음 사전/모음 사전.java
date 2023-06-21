@@ -17,7 +17,6 @@ class Solution {
 		if(depth>=5)return;
 		count++;
 		if(target.equals(str)) {
-			System.out.println(str);
 			answer=count;
 		}
 		for(int i=0;i<A.length;i++) {
